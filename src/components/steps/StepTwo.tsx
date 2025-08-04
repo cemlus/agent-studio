@@ -167,7 +167,7 @@ const StepTwo: React.FC<StepTwoProps> = ({ formData, updateFormData, errors }) =
     // Fetch voices when TTS provider changes
     useEffect(() => {
         updateFormData("ttsProvider", ttsProvider)
-        axios.get(`http://localhost:9000/api/v1/agent/list-voices/${ttsProvider}`)
+        axios.get(`https://goodmeetings-voice-ai.onrender.com/api/v1/agent/list-voices/${ttsProvider}`)
             .then(response => {
                 // Assuming response.data.voices is an array of Voice objects
                 setVoices(response.data.voices || [])

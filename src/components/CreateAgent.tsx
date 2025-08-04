@@ -77,7 +77,7 @@ const CreateAgent: React.FC = () => {
         console.log("Creating agent:", formData)
         console.log(formData);
         try {
-            const repsonse = await axios.post("http://localhost:9000/api/v1/agent/create-agent", {
+            const repsonse = await axios.post("https://goodmeetings-voice-ai.onrender.com/api/v1/agent/create-agent", {
                 agent: {
                     displayName: formData.displayName,
                     greetingMessage: formData.greetingMessage,

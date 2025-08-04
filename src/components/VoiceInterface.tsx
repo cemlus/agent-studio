@@ -7,7 +7,8 @@ import VoiceVisualizer from "./VoiceVisualizer"
 import { BackIcon, MicIcon, PhoneIcon, PhoneOffIcon } from "./Icons"
 
 // WebSocket and audio constants
-const WS_URL = "ws://localhost:9000/api/v1/talk/"
+// const WS_URL = "http://localhost:9000/api/v1/talk/"
+const WS_URL = "https://goodmeetings-voice-ai.onrender.com/api/v1/talk/"
 const BACKGROUND_CONSTANT_VOLUME = 0.4
 
 const LiveConvoWebsocketEvents = {
