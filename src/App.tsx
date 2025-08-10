@@ -23,6 +23,9 @@ const App: React.FC = () => {
     }
   }
 
+  const navigateToMyAgents = (component: CurrentView) => {
+    setCurrentView(component)
+  }
   const handleAgentSelect = (agent: Agent): void => {
     setSelectedAgent(agent)
     setCurrentView("voice")
@@ -31,7 +34,7 @@ const App: React.FC = () => {
   const renderCurrentView = (): React.ReactNode => {
     switch (currentView) {
       case "create":
-        return <CreateAgent />
+        return <CreateAgent onAgentCreated={navigateToMyAgents}/>
       case "my-agents":
         return <MyAgents onAgentSelect={handleAgentSelect} />
       case "voice":
@@ -43,7 +46,7 @@ const App: React.FC = () => {
       case "voice-training":
         return <VoiceTraining onBack={() => setCurrentView("create")} />
       default:
-        return <CreateAgent />
+        return <CreateAgent onAgentCreated={navigateToMyAgents}/>
     }
   }
 

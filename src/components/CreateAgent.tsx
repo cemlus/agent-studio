@@ -8,8 +8,8 @@ import StepTwo from "./steps/StepTwo"
 import StepThree from "./steps/StepThree"
 import type { FormData, FormErrors, Step } from "./types/index"
 import axios from "axios"
-
-const CreateAgent: React.FC = () => {
+// @ts-ignore
+const CreateAgent = ({ onAgentCreated }) => {
   const [currentStep, setCurrentStep] = useState<number>(1)
   const [formData, setFormData] = useState<FormData>({
     displayName: "",
@@ -57,12 +57,6 @@ const CreateAgent: React.FC = () => {
         if (!formData.selectedVoice) {
             newErrors.selectedVoice = "Please select a voice"
         }
-        // if (!formData.ttsProvider.trim()) {
-        //   newErrors.ttsProvider = "tts provider is required"
-        // }
-        // if (!formData.asrProvider.trim()) {
-        //   newErrors.asrProvider = "asr provider is required"
-        // }
     }
 
     setErrors(newErrors)
@@ -77,8 +71,9 @@ const CreateAgent: React.FC = () => {
         console.log("Creating agent:", formData)
         console.log(formData);
         try {
+          // const repsonse = await axios.post("http://localhost:9000/api/v1/agent/create-agent", {
             const repsonse = await axios.post("https://goodmeetings-voice-ai.onrender.com/api/v1/agent/create-agent", {
-                agent: {
+              agent: {
                     displayName: formData.displayName,
                     greetingMessage: formData.greetingMessage,
                     knowledgeBase: formData.knowledgeBase,
@@ -94,7 +89,13 @@ const CreateAgent: React.FC = () => {
                     provider: formData.asrProvider.toLowerCase()
                 }
             })
-            console.log(repsonse.data)
+            console.log(repsonse)
+
+            if(repsonse.statusText == 'Created'){
+              console.log(`agent created successfully`);
+              
+              onAgentCreated('my-agents');
+            } 
         } catch (error) {
             console.log(error);
         }
@@ -134,20 +135,17 @@ const CreateAgent: React.FC = () => {
   return (
     <div className="min-h-screen pt-20 lg:pt-0 bg-gray-50">
       <div className="max-w-3xl mx-auto p-6">
-        {/* Breadcrumbs */}
         <nav className="text-sm text-gray-500 mb-6">
           <span>Agent Studio</span>
           <span className="mx-2">/</span>
           <span className="text-gray-900">Create Agent</span>
         </nav>
 
-        {/* Page Header */}
         <div className="mb-8">
           <h1 className="text-2xl font-semibold text-gray-900 mb-2">Create Agent</h1>
           <p className="text-gray-600">Define your assistant's behavior and personality.</p>
         </div>
 
-        {/* Progress Indicator */}
         <ProgressIndicator
           steps={steps}
           currentStep={currentStep}
@@ -155,10 +153,8 @@ const CreateAgent: React.FC = () => {
           isStepValid={isStepValid}
         />
 
-        {/* Form Card */}
         <div className="bg-white rounded-lg border border-gray-200 p-8 mb-6 fade-in">{renderStep()}</div>
 
-        {/* Navigation Buttons */}
         <div className="flex justify-between items-center bg-white rounded-lg border border-gray-200 p-4">
           <button
             onClick={handlePrevious}

@@ -1,8 +1,4 @@
 
-
-
-"use client"
-
 import React, { useState, useEffect } from "react"
 import type { Agent } from "./types/index"
 import { VoiceIcon, KnowledgeIcon, EmptyStateIcon } from "./Icons"
@@ -17,20 +13,18 @@ const MyAgents: React.FC<MyAgentsProps> = ({ onAgentSelect }) => {
     const [agents, setAgents] = useState<Agent[]>([])
     const [searchTerm, setSearchTerm] = useState<string>("")
     const [sortBy, setSortBy] = useState<"name" | "created" | "lastUsed">("created")
-    // Add state to track the agent we're testing
     const [testingAgent, setTestingAgent] = useState<Agent | null>(null)
 
 
     useEffect(() => {
+        // axios.get("http://localhost:9000/api/v1/agent/list-agents")
         axios.get("https://goodmeetings-voice-ai.onrender.com/api/v1/agent/list-agents")
             .then((response) => {
-                // Expect response.data.agents as array of Agent objects
                 setAgents(response.data.agents ?? [])
             })
             .catch(err => console.error("Error fetching agents", err))
     }, [])
 
-    // Filter and sort based on nested agent fields and date strings
     const filteredAndSortedAgents = agents
         .filter(({ agent }) =>
             agent.displayName.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -76,13 +70,11 @@ const MyAgents: React.FC<MyAgentsProps> = ({ onAgentSelect }) => {
     return (
         <div className="min-h-screen pt-20 lg:pt-0 bg-gray-50">
             <div className="max-w-6xl mx-auto p-6">
-                {/* Header */}
                 <div className="mb-8">
                     <h1 className="text-2xl font-semibold text-gray-900 mb-2">My Voice Agents</h1>
                     <p className="text-gray-600">Manage and talk with your AI voice agents.</p>
                 </div>
 
-                {/* Search and Filter */}
                 <div className="bg-white rounded-lg border border-gray-200 p-6 mb-6">
                     <div className="flex flex-col sm:flex-row gap-4">
                         <input
@@ -104,7 +96,6 @@ const MyAgents: React.FC<MyAgentsProps> = ({ onAgentSelect }) => {
                     </div>
                 </div>
 
-                {/* Agents Grid */}
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                     {filteredAndSortedAgents.map((a) => (
                         <div
@@ -112,7 +103,6 @@ const MyAgents: React.FC<MyAgentsProps> = ({ onAgentSelect }) => {
                             className="bg-white rounded-lg border border-gray-200 p-6 hover:shadow-lg transition-smooth cursor-pointer group"
                             onClick={() => onAgentSelect(a)}
                         >
-                            {/* Agent Header */}
                             <div className="flex items-start justify-between mb-4">
                                 <div className="flex-1">
                                     <h3 className="font-semibold text-gray-900 mb-1 group-hover:text-blue-600 transition-colors">
@@ -135,7 +125,6 @@ const MyAgents: React.FC<MyAgentsProps> = ({ onAgentSelect }) => {
                                 </button>
                             </div>
 
-                            {/* Agent Details */}
                             <div className="space-y-3">
                                 <p className="text-sm text-gray-600 line-clamp-2">{a.agent.greetingMessage}</p>
 
@@ -164,7 +153,6 @@ const MyAgents: React.FC<MyAgentsProps> = ({ onAgentSelect }) => {
                                 )}
                             </div>
 
-                            {/* Action Buttons */}
                             <div className="mt-4 pt-4 border-t border-gray-100 flex gap-2">
                                 <button
                                     onClick={(e) => { e.stopPropagation(); onAgentSelect(a); setTestingAgent(a) }}
@@ -184,7 +172,6 @@ const MyAgents: React.FC<MyAgentsProps> = ({ onAgentSelect }) => {
                     ))}
                 </div>
 
-                {/* Empty State */}
                 {filteredAndSortedAgents.length === 0 && (
                     <div className="text-center py-12">
                         <div className="text-gray-400 mb-4"><EmptyStateIcon /></div>
