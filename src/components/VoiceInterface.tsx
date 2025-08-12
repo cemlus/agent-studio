@@ -7,8 +7,8 @@ import VoiceVisualizer from "./VoiceVisualizer";
 import { BackIcon, MicIcon, PhoneIcon, PhoneOffIcon } from "./Icons";
 
 // WebSocket and audio constants
-// const WS_URL = "http://localhost:9000/api/v1/talk/";
-const WS_URL = "https://goodmeetings-voice-ai.onrender.com/api/v1/talk/"
+const WS_URL = "http://localhost:9000/api/v1/talk/";
+// const WS_URL = "https://goodmeetings-voice-ai.onrender.com/api/v1/talk/"
 const BACKGROUND_CONSTANT_VOLUME = 0.1;
 
 const LiveConvoWebsocketEvents = {
@@ -198,10 +198,10 @@ const VoiceInterface: React.FC<VoiceInterfaceProps> = ({ agent, onBack }) => {
               type: LiveConvoWebsocketEvents.UserAudio,
               data: base64Audio,
             };
-            console.log('Audio is being sent to the backend');
             
             if (wsRef.current && wsRef.current.readyState === WebSocket.OPEN) {
               wsRef.current.send(JSON.stringify(message));
+              console.log('Audio is being sent to the backend');
             }
           };
           reader.readAsArrayBuffer(event.data);

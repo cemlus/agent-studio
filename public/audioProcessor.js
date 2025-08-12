@@ -23,6 +23,7 @@ class PcmPlayerProcessor extends AudioWorkletProcessor {
       
       // Create a new, larger buffer to hold old and new samples.
       const newBuffer = new Float32Array(this.audioBuffer.length - this.readIndex + newChunk.length);
+      // sets up the the audioBuffer for to play the voice
       newBuffer.set(this.audioBuffer.slice(this.readIndex));
       newBuffer.set(newChunk, this.audioBuffer.length - this.readIndex);
       
@@ -36,6 +37,7 @@ class PcmPlayerProcessor extends AudioWorkletProcessor {
     const view = new DataView(arrayBuffer);
     const float32Array = new Float32Array(arrayBuffer.byteLength / 2);
     
+    // conerts the 16 bit data to 32 bit float format
     for (let i = 0; i < float32Array.length; i++) {
       const int16 = view.getInt16(i * 2, true);
       float32Array[i] = int16 / 32768;
